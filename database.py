@@ -1,6 +1,6 @@
 import mysql.connector, os
 from mysql.connector import Error
-from models import Product
+from models import Product, Department
 
 class Database:
     def __init__(self, host="localhost", user="root", database="online_store"):
@@ -30,7 +30,6 @@ class Database:
             print("✅ Connection closed")
 
     # region Product CRUD operations
-
     def insert_product(self, product: Product):
         try:
             with self.connection.cursor() as cursor:
@@ -57,7 +56,26 @@ class Database:
                         product_id=row["product_id"]
                     ))
         except Error as e:
-            print(f"ERROR! Could not get all users!\nError: {e}")
+            print(f"ERROR! Could not get all products!\nError: {e}")
         
         return products
     # endregion
+
+    # region Department CRUD operations
+    def get_all_departments(self):
+        departments = []
+        try:
+            with self.connection.cursor() as cursor:
+                query = "SELECT * FROM departments"
+                cursor.execute(query)
+                rows = cursor.fetchall()
+                for row in rows:
+                    departments.append(Department(
+                        department_id=row["department_id"],
+                        name=row["name"]
+                    ))
+        except Error as e:
+            print(f"ERROR! Could not get all departments!\nError: {e}")
+        
+        return departments
+
