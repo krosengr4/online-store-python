@@ -1,5 +1,6 @@
 import mysql.connector, os
 from mysql.connector import Error
+from product import Product
 
 class Database:
     def __init__(self, host="localhost", user="root", database="online_store"):
@@ -30,13 +31,14 @@ class Database:
 
     # region Product CRUD operations
 
-    def insert_product(self, department_id, name, price):
+    def insert_product(self, product: Product):
         try:
             with self.connection.cursor() as cursor:
                 query = "INSERT INTO products (department_id, name, price) VALUES (%s, %s, %s)"
-                cursor.execute(query, (department_id, name, price))
+                cursor.execute(query, (product.department_id, product.name, product.price))
                 self.connection.commit()
-                print("Success! The product was added!!!")
+                product.id = cursor.lastrowid #<--- Set the product ID to the generated ID in the db
+                print(f"Success! The product was added with the ID: {product.id}!!!")
         except Error as e:
             print(f"ERROR! Could not insert product!!!\nError: {e}")
 
@@ -46,7 +48,14 @@ class Database:
             with self.connection.cursor(dictionary = True) as cursor: #<--- Setting dictionary = True will add the results into a dictionary instead of a tuple
                 query = "SELECT * FROM products"
                 cursor.execute(query)
-                products = cursor.fetchall()
+                rows = cursor.fetchall()
+                for row in rows:
+                    products.append(Product(
+                        name=row["name"],
+                        price=row["price"],
+                        department_id=row["department_id"],
+                        product_id=row["id"]
+                    ))
         except Error as e:
             print(f"ERROR! Could not get all users!\nError: {e}")
         
