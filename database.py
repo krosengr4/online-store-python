@@ -65,7 +65,7 @@ class Database:
     def get_all_departments(self):
         departments = []
         try:
-            with self.connection.cursor() as cursor:
+            with self.connection.cursor(dictionary=True) as cursor:
                 query = "SELECT * FROM departments"
                 cursor.execute(query)
                 rows = cursor.fetchall()
