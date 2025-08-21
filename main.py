@@ -1,5 +1,5 @@
 from database import Database
-from product import Product
+from models import Product
 
 with Database() as db:
     products = db.get_all_products()

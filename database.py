@@ -1,6 +1,6 @@
 import mysql.connector, os
 from mysql.connector import Error
-from product import Product
+from models import Product
 
 class Database:
     def __init__(self, host="localhost", user="root", database="online_store"):

@@ -12,3 +12,14 @@ class Product:
         print("Name:", self.name)
         print(f"Price: ${self.price:,.2f}")
         print('-------------------------------')
+
+class Department:
+    def __init__(self, name, department_id = None):
+        self.name = name
+        self.department_id = department_id
+
+    def print_data(self):
+        print("\n---DEPARTMENT---")
+        print("Department ID:", self.department_id)
+        print("Name:", self.name)
+        print('-------------------------------')
