@@ -54,7 +54,7 @@ class Database:
                         name=row["name"],
                         price=row["price"],
                         department_id=row["department_id"],
-                        product_id=row["id"]
+                        product_id=row["product_id"]
                     ))
         except Error as e:
             print(f"ERROR! Could not get all users!\nError: {e}")
